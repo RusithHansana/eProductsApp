@@ -1,7 +1,6 @@
 package tech.eproducts.user_management_service.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity

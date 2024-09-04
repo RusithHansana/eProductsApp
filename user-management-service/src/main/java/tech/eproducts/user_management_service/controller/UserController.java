@@ -1,12 +1,11 @@
 package tech.eproducts.user_management_service.controller;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
 import tech.eproducts.user_management_service.exception.ResourceNotFoundException;
 import tech.eproducts.user_management_service.model.User;
 import tech.eproducts.user_management_service.payload.*;
@@ -16,13 +15,15 @@ import tech.eproducts.user_management_service.security.JwtTokenProvider;
 import tech.eproducts.user_management_service.security.UserPrincipal;
 import tech.eproducts.user_management_service.service.UserService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
   @Autowired
@@ -90,6 +91,28 @@ public class UserController {
         .map(UserResponse::new)
         .collect(Collectors.toList());
     return ResponseEntity.ok(userResponses);
+  }
+
+  @GetMapping("/admin/{userId}")
+  @PreAuthorize("hasRole('ADMIN')")
+  public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
+    UserResponse user = userService.getUserById(userId);
+    return ResponseEntity.ok(user);
+  }
+
+  @PutMapping("/admin/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
+  public ResponseEntity<UserResponse> updateUser(@PathVariable Long id,
+      @RequestBody UpdateUserRequest updateUserRequest) {
+    UserResponse updatedUser = userService.updateUser(id, updateUserRequest);
+    return ResponseEntity.ok(updatedUser);
+  }
+
+  @DeleteMapping("/admin/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
+  public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    userService.deleteUser(id);
+    return ResponseEntity.ok(new ApiResponse(true, "User deleted successfully"));
   }
 
   @PostMapping("/logout")

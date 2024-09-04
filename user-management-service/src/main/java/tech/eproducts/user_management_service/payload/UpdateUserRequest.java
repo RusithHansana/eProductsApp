@@ -4,6 +4,7 @@ public class UpdateUserRequest {
   private String name;
   private String email;
   private String password;
+  private boolean isAdmin;
 
   public String getName() {
     return name;
@@ -27,5 +28,13 @@ public class UpdateUserRequest {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public Boolean isAdmin() {
+    return isAdmin;
+  }
+
+  public void setAdmin(Boolean isAdmin) {
+    this.isAdmin = isAdmin;
   }
 }

@@ -1,14 +1,15 @@
 package tech.eproducts.user_management_service.security;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Collections;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import tech.eproducts.user_management_service.model.User;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import tech.eproducts.user_management_service.model.User;
 
 public class UserPrincipal implements UserDetails {
   private Long _id;
