@@ -48,7 +48,7 @@ public class ReviewController {
      */
     @PostMapping
     public Review createReview(@RequestBody Review review) {
-        return reviewService.createReview(review); // Delegates to the ReviewService to create a new review
+        return reviewService.addReviewToProduct(review); // Delegates to the ReviewService to create a new review
     }
 
     /**

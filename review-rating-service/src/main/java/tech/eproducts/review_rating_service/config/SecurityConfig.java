@@ -1,4 +1,4 @@
-package tech.eproducts.user_management_service.config;
+package tech.eproducts.review_rating_service.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,9 +15,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import tech.eproducts.user_management_service.security.JwtAuthenticationFilter;
-import tech.eproducts.user_management_service.security.JwtAuthenticationEntryPoint;
+import tech.eproducts.review_rating_service.security.JwtAuthenticationEntryPoint;
+import tech.eproducts.review_rating_service.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -62,8 +61,8 @@ public class SecurityConfig {
         .sessionManagement(
             sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-            .requestMatchers("/api/users/register", "/api/users/login").permitAll()
-            .requestMatchers("/api/users/admin/**").hasRole("ADMIN")
+            .requestMatchers("/api/reviews").authenticated()
+            .requestMatchers("/api/reviews/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated());
 
     http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

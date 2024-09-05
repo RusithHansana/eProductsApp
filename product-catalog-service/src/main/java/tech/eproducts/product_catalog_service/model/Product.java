@@ -10,8 +10,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-
 
 @Document(collection = "products")
 @Data
@@ -22,11 +22,7 @@ public class Product {
     @Id
     private String id;
 
-//    @DBRef
-//    private User user; // Assuming you have a User class
-
-    @DBRef
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>(); // Initializes the reviews list
 
     private String name;
     private String image;
@@ -43,7 +39,5 @@ public class Product {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
-    // Constructors, getters, and setters
 
 }

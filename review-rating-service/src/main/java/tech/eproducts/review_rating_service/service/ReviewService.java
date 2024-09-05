@@ -23,12 +23,11 @@ public interface ReviewService {
         ResponseEntity<Review> getReviewById(String id);
 
         /**
-         * Creates a new review and saves it to the database.
+         * Adds a review to a product identified by its ID.
          *
-         * @param review The review object to create.
-         * @return The saved review object.
+         * @param newReview  The review object to be added to the product.
          */
-        Review createReview(Review review);
+        Review addReviewToProduct(Review newReview);
 
         /**
          * Updates an existing review identified by its ID.
