@@ -5,16 +5,14 @@ import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
 import tech.eproducts.payment_service.model.PaymentRecord;
 import tech.eproducts.payment_service.service.PaypalService;
 
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -30,9 +28,10 @@ public class PaypalController {
      *
      * @return The name of the template to display, which is "index".
      */
-    @GetMapping("/")
-    public String home() {
-        return "index";
+    @GetMapping("/{amount}")
+    public String homeWithAmount(@PathVariable String amount, Model model) {
+        model.addAttribute("defaultAmount", amount);
+        return  "index";
     }
 
     /**
