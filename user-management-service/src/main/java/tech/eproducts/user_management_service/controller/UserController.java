@@ -22,6 +22,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controller class for handling user-related operations.
+ */
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -38,6 +41,13 @@ public class UserController {
   @Autowired
   private JwtTokenProvider jwtTokenProvider;
 
+  /**
+   * Registers a new user.
+   *
+   * @param registerRequest The registration request containing user details.
+   * @param response The HTTP response.
+   * @return ResponseEntity containing the registered user's details.
+   */
   @PostMapping("/register")
   public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest,
       HttpServletResponse response) {
@@ -51,6 +61,13 @@ public class UserController {
     return ResponseEntity.ok(new UserResponse(user));
   }
 
+  /**
+   * Authenticates a user and logs them in.
+   *
+   * @param loginRequest The login request containing user credentials.
+   * @param response The HTTP response.
+   * @return ResponseEntity containing the logged-in user's details or an error message.
+   */
   @PostMapping("/login")
   public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
     User user = userRepository.findByEmail(loginRequest.getEmail());
@@ -62,6 +79,13 @@ public class UserController {
     return ResponseEntity.badRequest().body(new ApiResponse(false, "Invalid email or password"));
   }
 
+  /**
+   * Updates the current user's information.
+   *
+   * @param currentUser The currently authenticated user.
+   * @param updateUserRequest The request containing updated user information.
+   * @return ResponseEntity containing the updated user's details.
+   */
   @PutMapping("/update")
   public ResponseEntity<?> updateUser(@CurrentUser UserPrincipal currentUser,
       @Valid @RequestBody UpdateUserRequest updateUserRequest) {
@@ -83,6 +107,11 @@ public class UserController {
     return ResponseEntity.ok(new UserResponse(user));
   }
 
+  /**
+   * Retrieves all users (admin only).
+   *
+   * @return ResponseEntity containing a list of all users.
+   */
   @GetMapping("/admin/users")
   @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<List<UserResponse>> getAllUsers() {
@@ -93,6 +122,12 @@ public class UserController {
     return ResponseEntity.ok(userResponses);
   }
 
+  /**
+   * Retrieves a user by their ID (admin only).
+   *
+   * @param userId The ID of the user to retrieve.
+   * @return ResponseEntity containing the user's details.
+   */
   @GetMapping("/admin/{userId}")
   @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
@@ -100,6 +135,13 @@ public class UserController {
     return ResponseEntity.ok(user);
   }
 
+  /**
+   * Updates a user's information (admin only).
+   *
+   * @param id The ID of the user to update.
+   * @param updateUserRequest The request containing updated user information.
+   * @return ResponseEntity containing the updated user's details.
+   */
   @PutMapping("/admin/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<UserResponse> updateUser(@PathVariable Long id,
@@ -108,6 +150,12 @@ public class UserController {
     return ResponseEntity.ok(updatedUser);
   }
 
+  /**
+   * Deletes a user (admin only).
+   *
+   * @param id The ID of the user to delete.
+   * @return ResponseEntity containing a success message.
+   */
   @DeleteMapping("/admin/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<?> deleteUser(@PathVariable Long id) {
@@ -115,6 +163,12 @@ public class UserController {
     return ResponseEntity.ok(new ApiResponse(true, "User deleted successfully"));
   }
 
+  /**
+   * Logs out the current user.
+   *
+   * @param response The HTTP response.
+   * @return ResponseEntity containing a success message.
+   */
   @PostMapping("/logout")
   public ResponseEntity<?> logoutUser(HttpServletResponse response) {
     Cookie cookie = new Cookie("jwt", null);
@@ -127,6 +181,12 @@ public class UserController {
     return ResponseEntity.ok(new ApiResponse(true, "User logged out successfully"));
   }
 
+  /**
+   * Adds a JWT cookie to the response.
+   *
+   * @param response The HTTP response.
+   * @param jwt The JWT token to add as a cookie.
+   */
   private void addJwtCookie(HttpServletResponse response, String jwt) {
     Cookie cookie = new Cookie("jwt", jwt);
     cookie.setHttpOnly(true);

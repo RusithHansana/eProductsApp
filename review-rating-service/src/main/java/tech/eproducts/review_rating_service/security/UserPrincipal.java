@@ -1,3 +1,7 @@
+/**
+ * Represents a user principal for Spring Security authentication.
+ * This class implements UserDetails and provides user information and authorities.
+ */
 package tech.eproducts.review_rating_service.security;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -26,6 +30,12 @@ public class UserPrincipal implements UserDetails {
     this.authorities = authorities;
   }
 
+  /**
+   * Creates a UserPrincipal instance from a User object.
+   *
+   * @param user The User object to create the UserPrincipal from
+   * @return A new UserPrincipal instance
+   */
   public static UserPrincipal create(User user) {
     List<GrantedAuthority> authorities = Collections
         .singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().toUpperCase()));
@@ -38,10 +48,20 @@ public class UserPrincipal implements UserDetails {
         authorities);
   }
 
+  /**
+   * Gets the user's ID.
+   *
+   * @return The user's ID
+   */
   public Long getId() {
     return _id;
   }
 
+  /**
+   * Gets the user's name.
+   *
+   * @return The user's name
+   */
   public String getName() {
     return name;
   }

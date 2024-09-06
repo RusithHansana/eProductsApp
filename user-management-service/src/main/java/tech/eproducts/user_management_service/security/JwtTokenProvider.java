@@ -15,6 +15,9 @@ import tech.eproducts.user_management_service.model.User;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+/**
+ * This class provides JWT (JSON Web Token) related functionality for user authentication and authorization.
+ */
 @Component
 public class JwtTokenProvider {
 
@@ -28,11 +31,20 @@ public class JwtTokenProvider {
 
   private SecretKey key;
 
+  /**
+   * Initializes the JWT secret key.
+   */
   @PostConstruct
   public void init() {
     this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
   }
 
+  /**
+   * Generates a JWT token for the given user.
+   *
+   * @param user The user for whom the token is generated
+   * @return The generated JWT token
+   */
   public String generateToken(User user) {
     Date now = new Date();
     Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
@@ -45,6 +57,12 @@ public class JwtTokenProvider {
         .compact();
   }
 
+  /**
+   * Extracts the user ID from the given JWT token.
+   *
+   * @param token The JWT token
+   * @return The user ID extracted from the token
+   */
   public Long getUserIdFromJWT(String token) {
     Claims claims = Jwts.parserBuilder()
         .setSigningKey(key)
@@ -55,6 +73,12 @@ public class JwtTokenProvider {
     return Long.parseLong(claims.getSubject());
   }
 
+  /**
+   * Validates the given JWT token.
+   *
+   * @param authToken The JWT token to validate
+   * @return true if the token is valid, false otherwise
+   */
   public boolean validateToken(String authToken) {
     try {
       Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(authToken);
@@ -74,6 +98,12 @@ public class JwtTokenProvider {
     return false;
   }
 
+  /**
+   * Creates a cookie containing the JWT token.
+   *
+   * @param token The JWT token to be stored in the cookie
+   * @return The created cookie
+   */
   public Cookie createJwtCookie(String token) {
     Cookie cookie = new Cookie("jwt", token);
     cookie.setHttpOnly(true);

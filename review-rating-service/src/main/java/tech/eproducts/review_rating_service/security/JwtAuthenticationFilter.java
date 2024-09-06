@@ -16,6 +16,10 @@ import tech.eproducts.review_rating_service.service.CustomUserDetailsService;
 
 import java.io.IOException;
 
+/**
+ * JWT Authentication Filter
+ * This filter intercepts incoming requests to validate JWT tokens and set up authentication.
+ */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
   @Autowired
   private JwtTokenProvider tokenProvider;
@@ -23,6 +27,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   @Autowired
   private CustomUserDetailsService customUserDetailsService;
   
+  /**
+   * Filters incoming requests to validate JWT tokens and set up authentication.
+   *
+   * @param request The HTTP servlet request
+   * @param response The HTTP servlet response
+   * @param filterChain The filter chain
+   * @throws ServletException If a servlet-specific error occurs
+   * @throws IOException If an I/O error occurs
+   */
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
@@ -42,6 +55,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     filterChain.doFilter(request, response);
   }
 
+  /**
+   * Extracts the JWT token from the request cookies.
+   *
+   * @param request The HTTP servlet request
+   * @return The JWT token if found, null otherwise
+   */
   private String getJwtFromCookie(HttpServletRequest request) {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
