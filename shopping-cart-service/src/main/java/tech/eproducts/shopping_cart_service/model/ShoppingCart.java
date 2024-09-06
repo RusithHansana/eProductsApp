@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import tech.eproducts.shopping_cart_service.dto.ProductDTO;
+import tech.eproducts.shopping_cart_service.model.Product;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,11 +27,9 @@ public class ShoppingCart {
     @Id // Marks this field as the primary key in the MongoDB document
     private String id; // Unique identifier for the shopping cart
 
-//    @DBRef // Indicates that this field is a reference to another document (User)
 //    private String user; // Reference to the User who owns the cart
 
-    @DBRef // Indicates that this field is a reference to another document (ProductDTO)
-    private List<ProductDTO> items; // List of products included in the shopping cart
+    private List<Product> items; // List of products included in the shopping cart
 
     @CreatedDate // Automatically populated with the current date when the cart is created
     private LocalDateTime createdAt; // Timestamp for when the cart was created

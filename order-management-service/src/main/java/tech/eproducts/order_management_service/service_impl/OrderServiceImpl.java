@@ -50,7 +50,18 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Order createOrder(Order order) {
-        return orderRepository.save(order);
+        Order newOrder = new Order(
+                order.getProducts(),
+                order.getTotalPrice(),
+                order.getStatus(),
+                order.getUser(),
+                order.getShippingAddress(),
+                order.getPaymentMethod(),
+                order.getItemsPrice(),
+                order.getShippingPrice(),
+                order.getTaxPrice()
+        );
+        return orderRepository.save(newOrder);
     }
 
     /**
