@@ -28,8 +28,8 @@ public class ProductController {
 
     @PostMapping("/admin/create")
     @PreAuthorize("hasRole('ADMIN')")
-    public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(product);
+    public Product createProduct() {
+        return productService.createProduct();
     }
 
     @PutMapping("/{id}")

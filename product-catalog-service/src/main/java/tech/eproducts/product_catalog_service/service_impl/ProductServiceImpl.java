@@ -45,11 +45,18 @@ public class ProductServiceImpl implements ProductService {
     /**
      * Creates a new product.
      *
-     * @param product The product to be created
      * @return The created product
      */
     @Override
-    public Product createProduct(Product product) {
+    public Product createProduct() {
+        Product product = new Product(
+                "Product_Name",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXgz9Emvr38Z0a31MnbUXMCw62qAbQm3GiNw&s",
+                "Brand_Name",
+                "Category",
+                "Please update the product details to reflect the correct information"
+        );
+
         return productRepository.save(product);
     }
 

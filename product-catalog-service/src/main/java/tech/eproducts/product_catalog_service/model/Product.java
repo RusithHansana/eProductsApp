@@ -40,4 +40,11 @@ public class Product {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    public Product(String name, String image, String brand, String category, String description) {
+        this.name = name;
+        this.image = image;
+        this.brand = brand;
+        this.category = category;
+        this.description = description;
+    }
 }
